@@ -1,33 +1,15 @@
-import java.util.Arrays;
-
 class Solution {
     public int[][] solution(int[][] arr) {
-        int numRows = arr.length;
-        int numCols = arr[0].length;
+        int length = Math.max(arr[0].length, arr.length);
         
-        if (numRows > numCols) {
-            int[][] newArray = new int[numRows][numRows];
-            
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numCols; j++) {
-                    newArray[i][j] = arr[i][j];
-                }
-            }
-            return newArray;
-        }
-        
-        else if (numCols > numRows) {
-            int[][] newArray = new int[numCols][numCols];
-            
-            for (int i = 0; i < numRows; i++) {
-                for (int j = 0; j < numCols; j++) {
-                    newArray[i][j] = arr[i][j];
-                }
-            }
-            return newArray;
-        }
-        else {
-            return arr;
-        }
+        int[][] answer = new int[length][length];
+                
+        for(int i=0; i<arr.length; i++)
+            for(int j=0; j<arr[0].length; j++)
+                answer[i][j] = arr[i][j];
+
+        return answer;
     }
 }
+
+
