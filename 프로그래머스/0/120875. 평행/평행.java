@@ -28,8 +28,8 @@ class Solution {
 
                     double x3 = dots[k][0];
                     double y3 = dots[k][1];
-                    double x4 = dots[6 - i - j - k][0];
-                    double y4 = dots[6 - i - j - k][1];
+                    double x4 = dots[6-i-j-k][0];
+                    double y4 = dots[6-i-j-k][1];
 
                     if ((y2 - y1) * (x3 - x4) != (y3 - y4) * (x2 - x1)) {
                         parallel = false;
