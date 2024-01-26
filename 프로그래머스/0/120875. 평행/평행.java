@@ -7,11 +7,6 @@ class Solution {
                 double x2 = dots[j][0];
                 double y2 = dots[j][1];
 
-
-                if (x1 == x2 || y1 == y2) {
-                    continue;
-                }
-
                 boolean parallel = true;
 
                 for (int k = 0; k < dots.length; k++) {
