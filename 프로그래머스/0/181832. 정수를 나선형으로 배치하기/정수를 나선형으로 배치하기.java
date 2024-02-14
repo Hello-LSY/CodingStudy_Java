@@ -2,35 +2,31 @@ class Solution {
     public int[][] solution(int n) {
         int[][] answer = new int[n][n];
         
-        final int RIGHT = 0;
-        final int DOWN = 1;
-        final int LEFT = 2; 
-        final int UP = 3;
+        int[] right = {0,1};
+        int[] left = {0,-1};
+        int[] up = {-1,0};
+        int[] down = {1,0};
         
-        int cnt = 1;
-        int row = 0;
-        int col = 0;
-        int direction = RIGHT;
+        int[][] move = {right, down, left, up};
+        int cnt=0;
+        int X=0;
+        int Y=0;
         
-        int[][] moves = {{0, 1},
-                         {1, 0}, 
-                         {0, -1},
-                         {-1, 0}};
-        
-        for (int i = 0; i < n * n; i++) {
-            answer[row][col] = cnt++;
+        for (int i = 1; i <= n * n; i++) {
+            answer[Y][X] = i;
             
-            int nextRow = row + moves[direction][0];
-            int nextCol = col + moves[direction][1];
+            int nextX = X + move[cnt][1];
+            int nextY = Y + move[cnt][0];
             
-            if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n || answer[nextRow][nextCol] != 0) {
-                direction = (direction + 1) % 4;
+            if (nextX < 0 || nextX >= n || nextY < 0 || nextY >= n || answer[nextY][nextX] != 0) {
+                cnt = (cnt + 1) % 4;
+                nextX = X + move[cnt][1];
+                nextY = Y + move[cnt][0];
             }
             
-            row += moves[direction][0];
-            col += moves[direction][1];
+            X = nextX;
+            Y = nextY;
         }
-        
         return answer;
     }
 }
