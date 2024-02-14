@@ -1,34 +1,17 @@
 class Solution {
+    int[][] dots;
+
     public int solution(int[][] dots) {
-        for (int i = 0; i < dots.length - 1; i++) {
-            for (int j = i + 1; j < dots.length; j++) {
-                double x1 = dots[i][0];
-                double y1 = dots[i][1];
-                double x2 = dots[j][0];
-                double y2 = dots[j][1];
-
-                boolean parallel = true;
-
-                for (int k = 0; k < dots.length; k++) {
-                    if (k != i && k != j) {
-                        double x3 = dots[k][0];
-                        double y3 = dots[k][1];
-                        double x4 = dots[6-i-j-k][0];
-                        double y4 = dots[6-i-j-k][1];
-
-                        if ((y2 - y1) * (x3 - x4) != (y3 - y4) * (x2 - x1)) {
-                            parallel = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (parallel) {
-                    return 1;
-                }
-            }
-        }
-
+        this.dots = dots;
+        if (parallel(0, 1, 2, 3)) return 1;
+        if (parallel(0, 2, 1, 3)) return 1;
+        if (parallel(0, 3, 1, 2)) return 1;
         return 0;
+    }
+
+    boolean parallel(int a, int b, int c, int d) {
+        int x = (dots[a][0] - dots[b][0]) * (dots[c][1] - dots[d][1]);
+        int y = (dots[a][1] - dots[b][1]) * (dots[c][0] - dots[d][0]);
+        return x == y || x == -y;
     }
 }
