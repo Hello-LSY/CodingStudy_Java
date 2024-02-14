@@ -1,52 +1,50 @@
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
     public int solution(int a, int b, int c, int d) {
-        int answer = 0;
+        
+        int[] arr = {a, b, c, d};
+        Map<Integer, Integer> hashMap = new HashMap<>();
 
-        int[] dice = {a, b, c, d};
-        Arrays.sort(dice);
-        int d_cnt = (int)Arrays.stream(dice).distinct().count();
-        int p,q,r;
-
-        if (d_cnt == 1) {
-            // 네 주사위가 모두 같음
-            answer = dice[0] * 1111;
-        } else if (d_cnt == 2) {
-            // 세 주사위가 같음
-            if (dice[0] == dice[2] && dice[2] != dice[3]) {
-                p = dice[0];
-                q = dice[3];
-                answer = (int)Math.pow((10 * p + q), 2);
-            } else if (dice[0] != dice[1] && dice[1] == dice[3]) {
-                p = dice[3];
-                q = dice[0];
-                answer = (int)Math.pow((10 * p + q), 2);
-            } else {
-                p = dice[0];
-                q = dice[2];
-                answer = (p + q) * Math.abs(p-q);
-            }
-        } else if (d_cnt == 3) {
-            // 두 쌍의 주사위가 같음
-            if (dice[0] == dice[1]) {
-                p = dice[0];
-                q = dice[2];
-                r = dice[3];
-            } else if (dice[1] == dice[2]) {
-                p = dice[1];
-                q = dice[0];
-                r = dice[3];
-            } else {
-                p = dice[2];
-                q = dice[0];
-                r = dice[1];
-            }
-            answer = q * r;
-        } else {
-            answer = dice[0];
+        for (int i : arr) {
+            hashMap.put(i, hashMap.getOrDefault(i, 0) + 1);
         }
+        List<Integer>keys = new ArrayList<>(hashMap.keySet());
 
-        return answer;
+        // 주사위가 모두 같은 숫자인 경우
+        if (hashMap.size() == 1) {
+            int p = arr[0];
+            return 1111 * p;
+        // 주사위가 두가지    
+        } else if (hashMap.size() == 2) {
+            //둘중하나라도 1이 나온다면 1:3
+            if(hashMap.containsValue(1) || hashMap.containsValue(3)){
+                int p = hashMap.get(keys.get(0)) == 3 ? keys.get(0) : keys.get(1);
+                int q = hashMap.get(keys.get(0)) == 1 ? keys.get(0) : keys.get(1);
+                return (int)Math.pow((10*p)+q, 2);
+            }
+            else {
+                int p = keys.get(0);
+                int q = keys.get(1);
+                return (p + q) * Math.abs(p - q); 
+            }
+        }
+        //주사위가 세가지
+        else if (hashMap.size() == 3) {
+            int result=0;
+            for(int key : keys){
+                if(hashMap.get(key)!=2){
+                    if(result==0)result=key;
+                    else return result * key;
+                }
+            }
+
+        } else {
+            // 주사위가 네가지
+            Collections.sort(keys);
+            return keys.get(0);
+        }
+        return 0;
+
     }
 }
