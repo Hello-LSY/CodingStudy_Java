@@ -1,25 +1,23 @@
 class Solution {
     public int solution(int[][] lines) {
+        
+        int answer=0;
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
-
-        for (int i = 0; i < lines.length; i++) {
-            min = Math.min(min, lines[i][0]);
-            max = Math.max(max, lines[i][1]);
+        
+        //선만들기
+        for (int[] line : lines) {
+            min = Math.min(min, line[0]);
+            max = Math.max(max, line[1]);
         }
-
-        int answer = 0;
-
-        for (int i = min; i <= max; i++) {
-            int count = 0;
-
-            for (int j = 0; j < lines.length; j++) {
-                if (lines[j][0] <= i && lines[j][1] > i) {
-                    count++;
-                    if (count >= 2) {
-                        answer++;
-                        break;
-                    }
+        
+        for(int i = min; i<max; i++){
+            int cnt=0;
+            for(int[] line : lines){
+                if(line[0]<=i && line[1]>i)cnt++;
+                if(cnt==2){
+                    answer++;
+                    break;
                 }
             }
         }
