@@ -3,21 +3,19 @@ import java.util.*;
 public class Solution {
     public int[] solution(int []arr) {
         
-        Stack<Integer>stk = new Stack<>();
+        Stack<Integer> stk = new Stack<>();
         
-        for(int i=0; i<arr.length; i++){
-            if(!stk.empty() && stk.peek()==arr[i])continue;
-            else {
-                stk.push(arr[i]);
-            }
+        stk.push(arr[0]);
+        for(int i : arr){
+            if(stk.peek()!=i)stk.push(i);
         }
-        
         
         int[] answer = new int[stk.size()];
-        for (int i = answer.length - 1; i >= 0; i--) {
-            answer[i] = stk.pop();
+        int cnt=stk.size()-1;
+        
+        while(!stk.isEmpty()){
+            answer[cnt--] = stk.pop();
         }
-
 
         return answer;
     }
