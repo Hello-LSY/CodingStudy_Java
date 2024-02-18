@@ -1,19 +1,17 @@
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
                 
-        Map<String, Integer> map = new HashMap<>();
-        
-        for(int i=0; i<phone_book.length; i++){
-            map.put(phone_book[i], i);
+        Arrays.sort(phone_book);
+        Map<String, Integer> pnMap = new HashMap<>();
+        for(String phone_number : phone_book){
+            pnMap.put(phone_number, phone_number.length());
         }
         
-        for(int i=0; i<phone_book.length; i++){
-            for(int j=0; j<phone_book[i].length(); j++){
-                if(map.containsKey(phone_book[i].substring(0,j)))
+        for(String phone_number : phone_book){
+            for(int i=1; i<phone_number.length(); i++){
+                if(pnMap.containsKey(phone_number.substring(0, i)))
                     return false;
             }
         }
