@@ -2,8 +2,10 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        Queue<Integer> queue = new LinkedList<>(); // 각 작업이 배포되기까지 남은 일수 저장
-        ArrayList<Integer> list = new ArrayList<>(); // 각 배포마다 몇 개의 기능이 배포되었는지 저장
+        // 각 작업이 배포되기까지 남은 일수 담기
+        Queue<Integer> queue = new LinkedList<>(); 
+        // 각 배포마다 몇 개의 기능이 배포되었는지 담기
+        ArrayList<Integer> list = new ArrayList<>(); 
 
         // 각 작업이 배포되기까지 남은 일수
         for (int i = 0; i < progresses.length; i++) {
@@ -22,7 +24,7 @@ class Solution {
                 cnt++;
             } else {
                 // 현재 작업의 남은 일수 > 이전 작업
-                list.add(cnt); // 이전까지의 cnt를 리스트에 추가
+                list.add(cnt);
                 cnt = 1; 
                 before = current; // 현재 작업의 남은 일수로 업데이트
             }
