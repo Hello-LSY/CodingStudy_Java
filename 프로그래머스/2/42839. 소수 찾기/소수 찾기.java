@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     public int solution(String numbers) {
-        
+        //HashSet : 중복저장안됨
         Set<Integer> primeSet = new HashSet<>();
         char[] chars = numbers.toCharArray();
         boolean[] visited = new boolean[numbers.length()];
@@ -18,7 +18,7 @@ class Solution {
         return answer;
     }
 
-    // 순열 생성 함수
+    // 순열 생성
     private void dfs(char[] nums, String current, boolean[] visited, Set<Integer> primeSet) {
         
         if (!current.equals("")) {
@@ -30,12 +30,12 @@ class Solution {
             if (!visited[i]) {
                 visited[i] = true;
                 dfs(nums, current + nums[i], visited, primeSet);
-                visited[i] = false; // 백트래킹: 방문 표시 해제
+                visited[i] = false; // 백트래킹
             }
         }
     }
 
-    // 소수 여부 확인 함수
+    // 소수 여부 확인
     private boolean isPrime(int n) {
         if (n < 2) {
             return false;
