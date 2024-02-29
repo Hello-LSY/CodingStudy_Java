@@ -2,12 +2,12 @@ import java.util.*;
 
 class Solution {
     public int solution(String numbers) {
+        
         Set<Integer> primeSet = new HashSet<>();
         char[] chars = numbers.toCharArray();
         boolean[] visited = new boolean[numbers.length()];
-
-        generatePermutations(chars, "", visited, primeSet);
-
+        dfs(chars, "", visited, primeSet);
+        // 소수 개수 세기
         int answer = 0;
         for (int num : primeSet) {
             if (isPrime(num)) {
@@ -18,20 +18,24 @@ class Solution {
         return answer;
     }
 
-    private void generatePermutations(char[] nums, String current, boolean[] visited, Set<Integer> primeSet) {
+    // 순열 생성 함수
+    private void dfs(char[] nums, String current, boolean[] visited, Set<Integer> primeSet) {
+        
         if (!current.equals("")) {
             primeSet.add(Integer.parseInt(current));
         }
 
+        // 순열 생성
         for (int i = 0; i < nums.length; i++) {
             if (!visited[i]) {
                 visited[i] = true;
-                generatePermutations(nums, current + nums[i], visited, primeSet);
-                visited[i] = false;
+                dfs(nums, current + nums[i], visited, primeSet);
+                visited[i] = false; // 백트래킹: 방문 표시 해제
             }
         }
     }
 
+    // 소수 여부 확인 함수
     private boolean isPrime(int n) {
         if (n < 2) {
             return false;
