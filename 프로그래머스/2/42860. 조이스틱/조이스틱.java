@@ -3,10 +3,10 @@ class Solution {
         int answer = 0; 
         int len = name.length();
         int move = name.length() - 1;
-        
+
         for (int i = 0; i < len; i++) {
             answer += Math.min(name.charAt(i) - 'A', 'Z' - name.charAt(i) + 1);
-            
+
             int next = i + 1;
             while(next < len && name.charAt(next) == 'A') {
                 next++;
@@ -15,7 +15,7 @@ class Solution {
             move = Math.min(move, (len - next) * 2 + i);
         }   
         answer += move;
- 
+
         return answer;
     }
 }
