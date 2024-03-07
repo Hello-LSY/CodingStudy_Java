@@ -17,7 +17,7 @@ class Solution {
             if (bridge.size() == bridge_length) { 
                 nowWeight -= bridge.poll();
             }
-            
+
             if (nowWeight + truck.peek() <= weight) {
                 int truckWeight = truck.poll();
                 nowWeight += truckWeight;
