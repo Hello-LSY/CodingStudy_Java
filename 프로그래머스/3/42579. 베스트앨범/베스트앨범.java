@@ -29,6 +29,6 @@ class Solution {
             }
         }
 
-        return answerList.stream().mapToInt(Integer::intValue).toArray();
+        return answerList.stream().mapToInt(i->i).toArray();
     }
 }
