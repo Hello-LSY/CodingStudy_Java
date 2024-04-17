@@ -4,7 +4,13 @@ class Solution {
         
         for (int i = 1; i < land.length; i++) {
             for (int j = 0; j < land[0].length; j++) {
-                land[i][j] += maxOfPreviousRow(land, i - 1, j);
+                int max = 0;
+                for (int k = 0; k < land[0].length; k++) {
+                    if (j != k) {
+                        max = Math.max(max, land[i - 1][k]);
+                    }
+                }
+                land[i][j] += max;
             }
         }
 
@@ -13,15 +19,5 @@ class Solution {
         }
 
         return answer;
-    }
-
-    private int maxOfPreviousRow(int[][] land, int row, int col) {
-        int max = 0;
-        for (int j = 0; j < land[0].length; j++) {
-            if (j != col) {
-                max = Math.max(max, land[row][j]);
-            }
-        }
-        return max;
     }
 }
