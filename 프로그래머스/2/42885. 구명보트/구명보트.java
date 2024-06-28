@@ -1,22 +1,23 @@
-import java.util.*;
-
+import java.util.Arrays;
 class Solution {
     public int solution(int[] people, int limit) {
         int answer = 0;
         
         Arrays.sort(people);
         
-        int i = 0; // 가장 가벼운 사람
-        int j = people.length - 1; // 가장 무거운 사람
+        int left = 0;
+        int right = people.length-1;
         
-        while (i <= j) {
-            // 두 사람의 무게 합이 limit을 넘지 않는 경우
-            if (people[i] + people[j] <= limit) {
-                i++;
+        while(left<=right){
+            //두 사람 가능
+            if(people[left]+people[right] <= limit){
+                left++;
+                right--;
+            //한 사람만 가능
+            }else{
+                right--;                
             }
-            // 가장 무거운 사람을 보트에 태움
-            j--;
-            answer++;
+                answer++;
         }
         
         return answer;
