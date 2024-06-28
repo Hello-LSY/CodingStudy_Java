@@ -5,14 +5,18 @@ class Solution {
         int answer = 0;
         
         Arrays.sort(people);
-        int idx = 0;
-        for(int i= people.length-1; i>=idx; i--){
-            if(people[i] + people[idx] <= limit){
-                idx++;
-                answer++;
-            }else{
-                answer++;
+        
+        int i = 0; // 가장 가벼운 사람
+        int j = people.length - 1; // 가장 무거운 사람
+        
+        while (i <= j) {
+            // 두 사람의 무게 합이 limit을 넘지 않는 경우
+            if (people[i] + people[j] <= limit) {
+                i++;
             }
+            // 가장 무거운 사람을 보트에 태움
+            j--;
+            answer++;
         }
         
         return answer;
