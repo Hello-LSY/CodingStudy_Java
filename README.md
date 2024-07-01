@@ -1,2 +1,5 @@
 # CodingStudy_Java
-This is an auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+
+코딩 테스트를 준비하는 리포지토리입니다.
+
+주 언어는 자바로 백준허브를 사용하여 푼 문제를 정리하고있습니다.
