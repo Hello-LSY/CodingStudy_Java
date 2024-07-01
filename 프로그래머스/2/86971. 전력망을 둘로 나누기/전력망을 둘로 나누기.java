@@ -1,54 +1,54 @@
 import java.util.*;
+
 class Solution {
-    
-    private static boolean[] visited;
-    static int min;
-    static int[][] arr;
-    
+    static int[][] graph;
     public int solution(int n, int[][] wires) {
-        int answer = Integer.MAX_VALUE;        
-        arr = new int[n+1][n+1];   
+        int answer = n;
+        graph = new int[n+1][n+1];
         
         for(int i=0; i<wires.length; i++){
-            arr[wires[i][0]][wires[i][1]] = 1;
-            arr[wires[i][1]][wires[i][0]] = 1;
+            int from = wires[i][0];
+            int to = wires[i][1];
+            //양방향 그래프
+            graph[from][to] = 1;
+            graph[to][from] = 1;
         }
         
         for(int i=0; i<wires.length; i++){
-            int cutLeft = wires[i][0];
-            int cutRight = wires[i][1];
+            int from = wires[i][0];
+            int to = wires[i][1];
+            graph[from][to] = 0;
+            graph[to][from] = 0;
             
-            arr[cutLeft][cutRight] = 0;
-            arr[cutRight][cutLeft] = 0;
+            answer = Math.min(answer, bfs(from, n));
+            graph[from][to] = 1;
+            graph[to][from] = 1;
             
-            answer = Math.min(answer, bfs(cutLeft, n));
-            
-            arr[cutLeft][cutRight] = 1;
-            arr[cutRight][cutLeft] = 1;
         }
         
         return answer;
     }
     
-    public int bfs(int start, int n){
+    public static int bfs(int start, int n){
+        boolean[] visited = new boolean[n+1];
+        int count = 1;
+        
         Queue<Integer> que = new LinkedList<>();
-        visited = new boolean[n+1];
-        que.offer(start);
-        int cnt = 1;
-        visited[start]=true;
+        visited[start] = true;
+        que.add(start);
         
         while(!que.isEmpty()){
             int cur = que.poll();
-            visited[cur] = true;
             
-            for(int i=0; i<=n; i++){
-                if(arr[cur][i] ==1 && !visited[i]){
-                    que.offer(i);
-                    cnt++;
+            for(int i=1; i<=n; i++){
+                if(graph[cur][i] == 1 && !visited[i]){
+                    visited[i] = true;
+                    que.add(i);
+                    count++;
                 }
             }
         }
-        return Math.abs(cnt - (n - cnt));
+        
+        return (int)Math.abs(count-(n-count));
     }
-    
 }
