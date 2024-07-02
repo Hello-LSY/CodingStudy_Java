@@ -4,17 +4,14 @@ public class Solution {
     public int[] solution(int []arr) {
         
         Stack<Integer> stk = new Stack<>();
-        
-        stk.push(arr[0]);
         for(int i : arr){
-            if(stk.peek()!=i)stk.push(i);
+            if(stk.isEmpty() || stk.peek() != i){
+                stk.push(i);
+            }
         }
-        
         int[] answer = new int[stk.size()];
-        int cnt=stk.size()-1;
-        
-        while(!stk.isEmpty()){
-            answer[cnt--] = stk.pop();
+        for(int i=stk.size()-1; i>=0; i--){
+            answer[i] = stk.pop();
         }
 
         return answer;
