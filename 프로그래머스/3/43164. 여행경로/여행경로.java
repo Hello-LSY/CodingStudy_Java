@@ -2,8 +2,8 @@ import java.util.*;
 
 class Solution {
     
-    PriorityQueue<String> pQ;
-    boolean[] visited;
+    public static PriorityQueue<String> pQ;
+    public static boolean[] visited;
     
     public String[] solution(String[][] tickets) {
         
