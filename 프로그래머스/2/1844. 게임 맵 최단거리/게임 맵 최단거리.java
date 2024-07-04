@@ -2,51 +2,42 @@ import java.util.*;
 
 class Solution {
     
-    int[] moveX = {-1, 1, 0, 0};
-    int[] moveY = {0, 0, 1, -1};
-    
+    private static final int[] xMove = {-1,1,0,0}; 
+    private static final int[] yMove = {0,0,-1,1}; 
+    private static boolean visited[][];
     public int solution(int[][] maps) {
-        int n = maps.length;
-        int m = maps[0].length;
+        visited = new boolean[maps.length][maps[0].length];
         
-        boolean[][] visited = new boolean[n][m];
-        
-        int answer = bfs(maps, visited, n, m);
-        
-        return answer;
+        return bfs(maps);
     }
     
-    public int bfs(int[][] maps, boolean[][] visited, int n, int m) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{0, 0, 1}); // 시작 지점 (0, 0)과 거리 1
-        
+    private int bfs(int[][] maps){
+        Queue<int[]> que = new LinkedList<>();
+        que.add(new int[]{0, 0, 1});
         visited[0][0] = true;
         
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int curX = cur[0];
-            int curY = cur[1];
-            int distance = cur[2];
+        while(!que.isEmpty()){
+            int[]cur = que.poll();
+            int xPos = cur[0];
+            int yPos = cur[1];
+            int dis = cur[2];
             
-            // 목적지에 도착했을 때 거리 반환
-            if (curX == n - 1 && curY == m - 1) {
-                return distance;
-            }
-            
-            // 네 방향으로 이동
-            for (int i = 0; i < 4; i++) {
-                int nextX = curX + moveX[i];
-                int nextY = curY + moveY[i];
-                
-                // 다음 위치가 범위 안에 있고, 벽이 아니며, 방문하지 않았다면 이동
-                if (nextX >= 0 && nextX < n && nextY >= 0 && nextY < m && maps[nextX][nextY] == 1 && !visited[nextX][nextY]) {
-                    queue.add(new int[]{nextX, nextY, distance + 1});
-                    visited[nextX][nextY] = true;
+            if(xPos==maps.length-1 && yPos==maps[0].length-1){
+                return dis;
+            }else{
+                for(int i=0; i<4; i++){
+                    int dx = xPos + xMove[i];
+                    int dy = yPos + yMove[i];
+                    
+                    if(dx<0 || dx>=maps.length || dy<0 || dy>=maps[0].length) continue;
+                    if(!visited[dx][dy] && maps[dx][dy]==1){
+                        que.add(new int[]{dx, dy, dis+1});
+                        visited[dx][dy]=true;
+                    }                
+                    
                 }
             }
         }
-        
-        // 도착할 수 없는 경우
         return -1;
     }
 }
