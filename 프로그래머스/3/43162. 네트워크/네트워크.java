@@ -1,37 +1,35 @@
 import java.util.*;
 class Solution {
-    private static boolean visited[];
+    static boolean[] visited;
     public int solution(int n, int[][] computers) {
         int answer = 0;
         
         visited = new boolean[n];
         for(int i=0; i<n; i++){
-            //새로운 곳 = 새로운 네트워크 발견
             if(!visited[i]){
-                bfs(i, n, computers);
+                bfs(computers, i);
                 answer++;
             }
         }
         
+        
         return answer;
     }
     
-    
-    private void bfs(int start, int n, int[][] computers){
+    private void bfs(int[][] computers, int start){
         Queue<Integer> que = new LinkedList<>();
-        que.add(start);
+        que.offer(start);
         visited[start] = true;
         
         while(!que.isEmpty()){
             int cur = que.poll();
-            
-            for(int i=0; i<n; i++){
+            for(int i=0; i<computers.length; i++){
                 if(!visited[i] && computers[cur][i]==1){
-                    que.add(i);
-                    visited[i] = true;
+                    que.offer(i);
+                    visited[i]=true;
                 }
             }
         }
-        
     }
+    
 }
