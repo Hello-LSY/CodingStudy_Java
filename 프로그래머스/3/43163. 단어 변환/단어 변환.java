@@ -1,38 +1,56 @@
+import java.util.*;
+
 class Solution {
-    private static boolean visited[];
-    private static int minStep;
-        
+    static String end = "";
+    static int answer = Integer.MAX_VALUE;
+
     public int solution(String begin, String target, String[] words) {
-        visited = new boolean[words.length];
-        minStep = Integer.MAX_VALUE;
-        dfs(begin, target, words, 0);
-        
-        return minStep == Integer.MAX_VALUE ? 0 : minStep;
+        end = target;
+        boolean[] visited = new boolean[words.length];
+        bfs(begin, words, visited);
+        return answer == Integer.MAX_VALUE ? 0 : answer;
     }
-    
-    private void dfs(String cur, String target, String[] words, int step) {
-        if (cur.equals(target)) {
-            minStep = Math.min(step, minStep);
-            return;
-        }
-        
-        for (int i = 0; i < words.length; i++) {
-            if (!visited[i] && cmpStr(cur, words[i])) {
-                visited[i] = true;
-                dfs(words[i], target, words, step + 1);
-                visited[i] = false;  
+
+    public static void bfs(String begin, String[] words, boolean[] visited) {
+        Queue<WordNode> q = new LinkedList<>();
+        q.add(new WordNode(begin, 0));
+
+        while (!q.isEmpty()) {
+            WordNode currentNode = q.poll();
+            String curr = currentNode.word;
+            int currentCnt = currentNode.count;
+
+            if (curr.equals(end)) {
+                answer = Math.min(answer, currentCnt);
+                continue;
+            }
+
+            for (int i = 0; i < words.length; i++) {
+                if (!visited[i] && canConvert(curr, words[i])) {
+                    visited[i] = true;
+                    q.add(new WordNode(words[i], currentCnt + 1));
+                }
             }
         }
     }
-    
-    // 한 글자만 다른지 확인
-    private boolean cmpStr(String s1, String s2) {
-        int cnt = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) != s2.charAt(i)) {
-                cnt++;
+
+    public static boolean canConvert(String str1, String str2) {
+        int charCnt = 0;
+        for (int i = 0; i < str1.length(); i++) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                charCnt++;
             }
         }
-        return cnt == 1;
+        return charCnt == 1;
+    }
+
+    static class WordNode {
+        String word;
+        int count;
+
+        WordNode(String word, int count) {
+            this.word = word;
+            this.count = count;
+        }
     }
 }
