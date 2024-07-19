@@ -2,11 +2,9 @@ class Solution {
     public static int answer = 0;
 
     public int solution(int n) {
-        
 
         int[] arr = new int[n];
         dfs(arr,0,n);
-        
         return answer;
     }
     
