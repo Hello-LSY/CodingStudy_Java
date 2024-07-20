@@ -1,54 +1,55 @@
 import java.util.*;
 
 class Solution {
-    static String end = "";
-    static int answer = Integer.MAX_VALUE;
+    private static boolean[] visited;
+    private int answer = Integer.MAX_VALUE;
 
     public int solution(String begin, String target, String[] words) {
-        end = target;
-        boolean[] visited = new boolean[words.length];
-        bfs(begin, words, visited);
+        visited = new boolean[words.length];
+        bfs(begin, target, words);
         return answer == Integer.MAX_VALUE ? 0 : answer;
     }
 
-    public static void bfs(String begin, String[] words, boolean[] visited) {
-        Queue<WordNode> q = new LinkedList<>();
-        q.add(new WordNode(begin, 0));
+    private void bfs(String begin, String target, String[] words) {
+        Queue<Word> que = new LinkedList<>();
+        que.add(new Word(begin, 0));
 
-        while (!q.isEmpty()) {
-            WordNode currentNode = q.poll();
-            String curr = currentNode.word;
-            int currentCnt = currentNode.count;
+        while (!que.isEmpty()) {
+            Word curNode = que.poll();
+            String curWord = curNode.word;
+            int curCnt = curNode.count;
 
-            if (curr.equals(end)) {
-                answer = Math.min(answer, currentCnt);
+            if (curWord.equals(target)) {
+                answer = Math.min(answer, curCnt);
                 continue;
             }
 
             for (int i = 0; i < words.length; i++) {
-                if (!visited[i] && canConvert(curr, words[i])) {
+		            //방문안된곳에서 한문자 뺴고 맞나 안맞나 확인
+                if (!visited[i] && isValid(curWord, words[i])) {
                     visited[i] = true;
-                    q.add(new WordNode(words[i], currentCnt + 1));
+                    //된다면 다음으로 갱신하기위해 word와 cnt 증가
+                    que.add(new Word(words[i], curCnt + 1));
                 }
             }
         }
     }
 
-    public static boolean canConvert(String str1, String str2) {
-        int charCnt = 0;
-        for (int i = 0; i < str1.length(); i++) {
-            if (str1.charAt(i) != str2.charAt(i)) {
-                charCnt++;
+    private boolean isValid(String w1, String w2) {
+        int diffCnt = 0;
+        for (int i = 0; i < w1.length(); i++) {
+            if (w1.charAt(i) != w2.charAt(i)) {
+                diffCnt++;
             }
         }
-        return charCnt == 1;
+        return diffCnt == 1;
     }
 
-    static class WordNode {
+    private static class Word {
         String word;
         int count;
 
-        WordNode(String word, int count) {
+        Word(String word, int count) {
             this.word = word;
             this.count = count;
         }
