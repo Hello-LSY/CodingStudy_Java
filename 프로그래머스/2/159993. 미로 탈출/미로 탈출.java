@@ -7,16 +7,14 @@ class Solution {
     
     public int solution(String[] maps) {
         int answer = 0;
-        int n = maps.length;
-        int m = maps[0].length();
         
         // 출발 지점, 레버, 출구 위치 찾기
         int[] start = new int[2];
         int[] lever = new int[2];
         int[] exit = new int[2];
         
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        for (int i = 0; i < maps.length; i++) {
+            for (int j = 0; j < maps[0].length(); j++) {
                 // S가 0,0이 아닐 수 있으므로 어딘지 알아내야함
                 if (maps[i].charAt(j) == 'S') {
                     start[0] = i;
