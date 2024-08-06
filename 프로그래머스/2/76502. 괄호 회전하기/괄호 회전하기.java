@@ -1,39 +1,47 @@
 import java.util.*;
 
 class Solution {
+    
     public int solution(String s) {
         int answer = 0;
-        int length = s.length();
         
-        for (int i = 0; i < length; i++) {
-            String rotated = rotateString(s, i);
-            if (isBracket(rotated)) {
+        for(int i=0; i<s.length(); i++){
+            if(isBracket(rotate(s, i))){
                 answer++;
             }
         }
         
+        
         return answer;
     }
     
-    private String rotateString(String s, int x) {
-        return s.substring(x) + s.substring(0, x);
-    }
-    
-    private boolean isBracket(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (char c : s.toCharArray()) {
-            if (c == '(' || c == '[' || c == '{') {
-                stack.push(c);
-            } else {
-                if (stack.isEmpty()) return false;
-                char top = stack.pop();
-                if ((c == ')' && top != '(') || 
-                    (c == ']' && top != '[') || 
-                    (c == '}' && top != '{')) {
+    //선형 완탐 로직
+    private boolean isBracket(String s){
+        Stack<Character> stk = new Stack<>();
+        
+        for(int i=0; i<s.length(); i++){
+            char cur = s.charAt(i);
+            if(cur=='{' || cur=='[' || cur=='('){
+                stk.push(cur);
+            } else{
+                if(stk.isEmpty()) return false;
+                char top = stk.pop();
+                if((cur=='}' && top != '{') || 
+                   (cur==']' && top!='[') || 
+                   (cur==')' && top!='(')){
                     return false;
                 }
             }
         }
-        return stack.isEmpty();
+        
+        return stk.isEmpty();
     }
+    
+    
+    //회전하는 로직
+    private String rotate(String s, int step){
+        return s.substring(step) + s.substring(0, step);
+    }
+    
+    
 }
