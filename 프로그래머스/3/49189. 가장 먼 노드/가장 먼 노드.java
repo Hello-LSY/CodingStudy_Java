@@ -2,43 +2,58 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] edge) {
-        int answer = 0;
-        boolean[][] route = new boolean[n + 1][n + 1];
-        boolean[] visited = new boolean[n + 1];
-
-        for (int i = 0; i < edge.length; i++) {
-            route[edge[i][0]][edge[i][1]] = true;
-            route[edge[i][1]][edge[i][0]] = true;
-        }
-
-        answer = bfs(1, route, visited);
-
-        return answer;
+        List<List<Integer>> graph = buildGraph(n, edge);
+        int[] dist = bfs(graph, n);
+        return countFurthest(dist);
     }
 
-    private int bfs(int start, boolean[][] route, boolean[] visited) {
-        Queue<Integer> queue = new LinkedList<>();
-        int count = 0;
-
-        queue.add(start);
-        visited[start] = true;
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            count = size; // 현재 큐의 크기를 count에 저장
-
-            for (int i = 0; i < size; i++) {
-                int current = queue.poll();
-
-                for (int j = 1; j < route[current].length; j++) {
-                    if (route[current][j] && !visited[j]) {
-                        queue.add(j);
-                        visited[j] = true;
-                    }
+    private List<List<Integer>> buildGraph(int n, int[][] edge) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        
+        for (int[] e : edge) {
+            graph.get(e[0] - 1).add(e[1] - 1);
+            graph.get(e[1] - 1).add(e[0] - 1);
+        }
+        
+        return graph;
+    }
+    
+    private int[] bfs(List<List<Integer>> graph, int n) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, -1);
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(0);
+        dist[0] = 0;
+        
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            for (int next : graph.get(cur)) {
+                if (dist[next] == -1) {
+                    dist[next] = dist[cur] + 1;
+                    q.offer(next);
                 }
             }
         }
+        
+        return dist;
+    }
 
-        return count;
+    private int countFurthest(int[] dist) {
+        int maxDist = 0;
+        int cnt = 0;
+        
+        for (int d : dist) {
+            if (d > maxDist) {
+                maxDist = d;
+                cnt = 1;
+            } else if (d == maxDist) {
+                cnt++;
+            }
+        }
+        
+        return cnt;
     }
 }
