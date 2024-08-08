@@ -38,7 +38,8 @@ class Solution {
     // 소수 여부 확인
     private boolean isPrime(int num){
         if(num<2)return false;
-        for(int i = 2; i<Math.sqrt(num); i++){
+        //Math.sqrt 호출이슈 수정
+        for(int i = 2; i*i<=num; i++){
             if(num%i==0)return false;
         }
         
