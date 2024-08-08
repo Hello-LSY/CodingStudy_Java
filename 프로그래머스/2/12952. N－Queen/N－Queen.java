@@ -1,35 +1,40 @@
 class Solution {
-    public static int answer = 0;
-
+    private int answer;
+    private boolean[] cols;
+    private boolean[] d1; // 좌하향 대각선
+    private boolean[] d2; // 우하향 대각선
+    
     public int solution(int n) {
-
-        int[] arr = new int[n];
-        dfs(arr,0,n);
+        answer = 0;
+        cols = new boolean[n];
+        d1 = new boolean[2 * n - 1];
+        d2 = new boolean[2 * n - 1];
+        
+        dfs(0, n);
+        
         return answer;
     }
     
-    public void dfs(int[] arr, int position, int n){
-        if(position==n){
+    private void dfs(int row, int n) {
+        if (row == n) {
             answer++;
             return;
-        } 
-        
-        for(int i=0; i<n; i++){
-            if(isAble(arr, position, i)){
-                arr[position] = i;
-                dfs(arr, position+1, n);
-            }
         }
-    }
-    
-    //가능한지 메서드
-    public boolean isAble(int[] arr, int row, int col){
-        for(int i=0; i<row; i++){
-            //같은열
-            if(arr[i]==col ||
-            //같은 대각선 
-            Math.abs(arr[i] - col) == Math.abs(i - row)
-            ) return false;
-        } return true;
+        
+        for (int col = 0; col < n; col++) {
+            int id1 = row - col + n - 1;
+            int id2 = row + col;
+            if (cols[col] || d1[id1] || d2[id2]) {
+                continue;
+            }
+            
+            cols[col] = true;
+            d1[id1] = true;
+            d2[id2] = true;
+            dfs(row + 1, n);
+            cols[col] = false;
+            d1[id1] = false;
+            d2[id2] = false;
+        }
     }
 }
