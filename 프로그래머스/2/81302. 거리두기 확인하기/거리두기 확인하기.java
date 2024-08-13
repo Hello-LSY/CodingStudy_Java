@@ -1,17 +1,14 @@
 import java.util.*;
 
 class Solution {
-    private static final int[] dx = {1, -1, 0, 0};
-    private static final int[] dy = {0, 0, 1, -1};
-
+    public static final int[][] move = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+    
     public int[] solution(String[][] places) {
         int[] answer = new int[places.length];
         
-        // 대기실 완탐
         for (int i = 0; i < places.length; i++) {
             if (checkDis(places[i])) {
                 answer[i] = 1;
-            // 거리두기 안지킨 경우
             } else {
                 answer[i] = 0;
             }
@@ -19,11 +16,10 @@ class Solution {
         
         return answer;
     }
-
+    
     private boolean checkDis(String[] place) {
         for (int i = 0; i < place.length; i++) {
-            for (int j = 0; j < place[i].length(); j++) {
-                // 사람이 앉아있을때 완탐
+            for (int j = 0; j < place[0].length(); j++) {
                 if (place[i].charAt(j) == 'P') {
                     if (!bfs(place, i, j)) {
                         return false;
@@ -33,35 +29,36 @@ class Solution {
         }
         return true;
     }
-
-    private boolean bfs(String[] place, int x, int y) {
-        Queue<int[]> que = new LinkedList<>();
-        boolean[][] visited = new boolean[5][5];
-        que.offer(new int[]{x, y});
-        visited[x][y] = true;
+    
+    private boolean bfs(String[] place, int xPos, int yPos) {
+        boolean[][] visited = new boolean[place.length][place[0].length()];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{xPos, yPos, 0});
+        visited[xPos][yPos] = true;
         
-        while (!que.isEmpty()) {
-            int[] cur = que.poll();
-            int cx = cur[0];
-            int cy = cur[1];
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int y = cur[1];
+            int dist = cur[2];
             
-            for (int i = 0; i < 4; i++) {
-                int nx = cx + dx[i];
-                int ny = cy + dy[i];
-                
-                // 아직 방문 안한경우 && 맵 안에 있는 경우
-                if (nx >= 0 && ny >= 0 && nx < 5 && ny < 5 && !visited[nx][ny]) {
-                    // 맨허튼 거리 구하기
-                    int manDis = Math.abs(nx - x) + Math.abs(ny - y);
+            // 거리가 1일 때 다른 P를 발견하면 바로 실패 처리
+            if (dist > 0 && place[x].charAt(y) == 'P') {
+                return false;
+            }
+            
+            // BFS 탐색의 거리를 2로 제한
+            if (dist < 2) {
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + move[i][0];
+                    int ny = y + move[i][1];
                     
-                    if (manDis <= 2) {
-                        visited[nx][ny] = true;
-                        // 맨허튼 안지킴
-                        if (place[nx].charAt(ny) == 'P') {
-                            return false;
-                        } else if (place[nx].charAt(ny) == 'O') {
-                            que.offer(new int[]{nx, ny});
+                    if (nx >= 0 && ny >= 0 && nx < place.length && ny < place[0].length() && !visited[nx][ny]) {
+                        // 파티션('X')이 없는 경우에만 다음 위치로 이동
+                        if (place[nx].charAt(ny) != 'X') {
+                            queue.offer(new int[]{nx, ny, dist + 1});
                         }
+                        visited[nx][ny] = true;
                     }
                 }
             }
