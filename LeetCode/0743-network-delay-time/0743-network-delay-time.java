@@ -43,7 +43,14 @@ class Solution {
             }
         }
 
-        int maxDistance = Arrays.stream(disQue).skip(1).max().getAsInt();
-        return maxDistance == Integer.MAX_VALUE ? -1 : maxDistance;
+        int maxDistance = 0;
+        for (int i = 1; i <= n; i++) {
+            if (disQue[i] == Integer.MAX_VALUE) {
+                return -1;
+            }
+            maxDistance = Math.max(maxDistance, disQue[i]);
+        }
+
+        return maxDistance;
     }
 }
