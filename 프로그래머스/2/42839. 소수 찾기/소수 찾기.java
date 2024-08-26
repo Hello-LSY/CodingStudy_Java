@@ -4,45 +4,39 @@ class Solution {
     public int solution(String numbers) {
         //HashSet : 중복저장안됨
         Set<Integer> primeSet = new HashSet<>();
-        char[] chars = numbers.toCharArray();
         boolean[] visited = new boolean[numbers.length()];
+        char[] chars = numbers.toCharArray();
+        int answer=0;
         dfs(chars, "", visited, primeSet);
-        // 소수 개수 세기
-        int answer = 0;
-        for (int num : primeSet) {
-            if (isPrime(num)) {
-                answer++;
-            }
+        for(int num : primeSet){
+            if(isPrime(num)) answer++;
         }
 
         return answer;
     }
 
     // 순열 생성
-    private void dfs(char[] nums, String current, boolean[] visited, Set<Integer> primeSet) {
-        
-        if (!current.equals("")) {
-            primeSet.add(Integer.parseInt(current));
+    private void dfs(char[] chars, String cur, boolean[] visited, Set<Integer> primeSet){
+        if(!cur.equals("")){
+            primeSet.add(Integer.parseInt(cur));
         }
-
-        // 순열 생성
-        for (int i = 0; i < nums.length; i++) {
-            if (!visited[i]) {
+        
+        for(int i=0; i<chars.length; i++){
+            if(!visited[i]){
                 visited[i] = true;
-                dfs(nums, current + nums[i], visited, primeSet);
-                visited[i] = false; // 백트래킹
+                dfs(chars, cur+chars[i], visited, primeSet);
+                visited[i] = false;
             }
         }
+        
     }
 
     // 소수 여부 확인
-    private boolean isPrime(int num){
-        if(num<2)return false;
-        //Math.sqrt 호출이슈 수정
-        for(int i = 2; i*i<=num; i++){
-            if(num%i==0)return false;
+    private boolean isPrime(int n){
+        if(n<2) return false;
+        for(int i=2; i*i<=n; i++){
+            if(n%i==0)return false;
         }
-        
         return true;
     }
 }
