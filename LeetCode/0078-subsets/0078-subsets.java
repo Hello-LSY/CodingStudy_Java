@@ -1,24 +1,22 @@
 import java.util.*;
 
 class Solution {
-    private List<List<Integer>> sSets;
-
     public List<List<Integer>> subsets(int[] nums) {
-        sSets = new ArrayList<>();
-        dfs(nums, new ArrayList<>(), 0);
-        return sSets;
-    }
-    
-    private void dfs(int[] nums, List<Integer> sSet, int start) {
-        //모든 경우에 추가
-        sSets.add(new ArrayList<>(sSet));
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(nums, 0, new ArrayList<>(), result);
+        return result;
 
-        for (int i = start; i < nums.length; i++) {
-            sSet.add(nums[i]);
-            
-            dfs(nums, sSet, i + 1);
-            
-            sSet.remove(sSet.size() - 1);
-        }
     }
+
+    private void dfs(int[]nums, int start, List<Integer>num, List<List<Integer>>result){
+        result.add(new ArrayList<>(num));
+
+        for(int i=start; i<nums.length; i++){
+            num.add(nums[i]);
+            dfs(nums, i+1, num, result);
+            num.remove(num.size()-1);
+        }
+
+    } 
+
 }
